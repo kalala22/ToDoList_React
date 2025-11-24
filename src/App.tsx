@@ -1,34 +1,40 @@
+
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+type Priority = "Urgente" | "Moyenne" | "Basse"
 
+type Todo = {
+  id: number
+  text: string
+  priority : Priority
+}
+
+function App() {
+  const [input , setInput] = useState<string>("")
+  const [priority, setPriority] = useState<Priority>("Moyenne")
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='flex justify-center'>
+      <div className='w-2/3 flex flex-col gap-4 my-15 bg-base-300 p-5 rounded-2xl'>
+      <div className='flex gap-4'>
+        <input type="text"
+        className='input w-full'  
+        placeholder='Ajouter une tâche...'
+        value={input}
+        onChange={(e) => {
+          setInput(e.target.value)
+        }}/>
+        <select className='select w-full'value={priority} onChange={(e) =>{
+          setPriority(e.target.value as Priority )
+        }}>
+          <option value="Urgente">Urgente</option>
+          <option value="Moyenne">Moyenne</option>
+          <option value="Basse">Basse</option>
+        </select>
+        <button className='btn btn-primary'>Ajouter</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
