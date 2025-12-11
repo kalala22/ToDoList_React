@@ -1,3 +1,9 @@
+import { Header } from "./header/header";
+
 export default function TaskContainer() {
-  return <div>Notre contenu ici...</div>;
+  return (
+    <main>
+      <Header />
+    </main>
+  );
 }
