@@ -22,7 +22,6 @@ export const TaskInput = ({ addTask }: TaskInputProps) => {
 
   return (
     <div className={`box ${styles.element}`}>
-      addTask
       <h2 className={styles.title}>🎯 Ajoute ta prochaine tache</h2>
       <form className={styles.container} onSubmit={handleAddTask}>
         <input
