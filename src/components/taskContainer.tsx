@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useEffect, useState } from "react";
 import { Footer } from "./footer/footer";
 import { Header } from "./header/header";
 import { TaskInput } from "./taskInput/taskInpunt";
@@ -13,25 +14,40 @@ interface Task {
 export default function TaskContainer() {
   const [taskList, setTaskList] = useState<Task[]>([]);
 
+  useEffect(() => {
+    const storedTasks = localStorage.getItem("taskList");
+    if (storedTasks) {
+      setTaskList(JSON.parse(storedTasks));
+    }
+  }, []);
+
+  const saveTasksToLocalStorage = (tasks: Task[]) => {
+    localStorage.setItem("taskList", JSON.stringify(tasks));
+  };
+
   const addTask = (title: string) => {
     const newTask: Task = {
       id: taskList.length ? taskList[taskList.length - 1].id + 1 : 1,
       title,
       completed: false,
     };
-    setTaskList([...taskList, newTask]);
+    const udatedTasks = [...taskList, newTask];
+    setTaskList(udatedTasks);
+    saveTasksToLocalStorage(udatedTasks);
   };
 
   const editTask = (id: number, completedValue: boolean) => {
-    setTaskList(
-      taskList.map((task) =>
-        task.id === id ? { ...task, completed: completedValue } : task
-      )
+    const updatedTasks = taskList.map((task) =>
+      task.id === id ? { ...task, completed: completedValue } : task
     );
+    setTaskList(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   const deleteTask = (id: number) => {
-    setTaskList(taskList.filter((task) => task.id !== id));
+    const updatedTasks = taskList.filter((task) => task.id !== id);
+    setTaskList(updatedTasks);
+    saveTasksToLocalStorage(updatedTasks);
   };
 
   const getTaskCount = () => {
