@@ -1,8 +1,19 @@
 import styles from "./footer.module.css";
-export const Footer = () => {
-  return (
-    <footer className={styles.footer}>
-      <code>Avec TaskFlow tu as éliminé toutes tes tâche"s" </code>
-    </footer>
-  );
+
+interface FooterProps {
+  completedTasks: number;
+}
+
+export const Footer = ({ completedTasks }: FooterProps) => {
+  if (completedTasks) {
+    return (
+      <footer>
+        <code className={styles.footer}>
+          Avec TaskFlow tu as éliminé {completedTasks} tâche
+          {completedTasks > 1 ? "s" : ""} ! 🚀
+        </code>
+      </footer>
+    );
+  }
+  return null;
 };
